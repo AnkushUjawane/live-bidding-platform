@@ -1,5 +1,12 @@
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 
-export const socket = io(
-    import.meta.env.VITE_BACKEND_URL || "http://localhost:9000"
-);
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
+if (!BACKEND_URL) {
+  throw new Error("VITE_API_URL is not defined");
+}
+
+export const socket = io(BACKEND_URL, {
+  transports: ["websocket"],
+  autoConnect: true,
+});
