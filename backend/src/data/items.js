@@ -17,5 +17,15 @@ module.exports = [
     highestBidder: null,
     endTime: Date.now() + 8 * 60 * 1000,
     ended: false
-  }
+  },
+
+  {
+    id: "3",
+    title: "Oppo",
+    startingPrice: 700,
+    currentBid: 700,
+    highestBidder: null,
+    endTime: Date.now() + 10 * 60 * 1000,
+    ended: false
+  },
 ];

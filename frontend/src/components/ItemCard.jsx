@@ -26,12 +26,12 @@ export default function ItemCard({ item, userId, serverOffset }) {
 
             setTimeout(() => {
                 setFlash(null);
-                setStatus(""); 
+                setStatus("");
             }, 600);
         });
 
-        socket.on("BID_ERROR", ({ itemId }) => {    
-            if (itemId !== item.id) return; 
+        socket.on("BID_ERROR", ({ itemId }) => {
+            if (itemId !== item.id) return;
             setStatus("outbid");
             setFlash("red");
             setTimeout(() => {
@@ -60,7 +60,7 @@ export default function ItemCard({ item, userId, serverOffset }) {
         setFlash("green");
         setTimeout(() => {
             setFlash(null);
-            setStatus(""); 
+            setStatus("");
         }, 600);
         socket.emit("BID_PLACED", {
             itemId: item.id,
@@ -70,20 +70,36 @@ export default function ItemCard({ item, userId, serverOffset }) {
     };
 
     return (
-        <div className={`card ${status}`}>
-            <h3>{item.title}</h3>
-            <h2 className={`price ${flash === "green" ? "flash-green" : ""} ${flash === "red" ? "flash-red" : ""}`}>
+        <div className={`card ${auctionEnded ? "ended" : ""}`}>
+
+            {/* Header */}
+            <div className="card-header">
+                <h3 className="item-title">{item.title}</h3>
+                <CountdownTimer
+                    endTime={Number(item.endTime)}
+                    serverOffset={serverOffset}
+                />
+            </div>
+
+            {/* Price */}
+            <div
+                className={`price ${flash === "green" ? "flash-green" : ""} ${flash === "red" ? "flash-red" : ""
+                    }`}
+            >
                 ${price}
-            </h2>
-            <CountdownTimer
-                endTime={Number(item.endTime)}
-                serverOffset={serverOffset}
-            />
-            <button onClick={bid} disabled={auctionEnded}>
-                {auctionEnded ? "Auction Ended" : "Bid +$10"}
+            </div>
+
+            {/* CTA */}
+            <button className="bid-btn" onClick={bid} disabled={auctionEnded}>
+                {auctionEnded ? "Auction Ended" : "Place Bid  +$10"}
             </button>
-            {status === "winning" && <span>🏆 Winning</span>}
-            {status === "outbid" && <span>❌ Outbid</span>}
+
+            {/* Status */}
+            <div className="status">
+                {status === "winning" && <span className="win">🏆 Winning</span>}
+                {status === "outbid" && <span className="lose">❌ Outbid</span>}
+            </div>
+
         </div>
     );
 }

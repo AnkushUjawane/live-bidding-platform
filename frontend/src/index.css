@@ -1,8 +1,65 @@
 .card {
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  transition: background-color 0.4s ease, transform 0.2s ease;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.35),
+      rgba(255, 255, 255, 0.15));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 0 12px rgba(255, 255, 255, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.price {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.bid-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+
+  box-shadow: 0 8px 20px rgba(0, 180, 255, 0.35);
+  transition: all 0.25s ease;
+}
+
+.bid-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 180, 255, 0.45);
+}
+
+.bid-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .badge {
@@ -22,21 +79,62 @@
   background: #c62828;
   color: white;
 }
-.flash-green {
-  animation: flashGreen 0.6s;
-}
-.flash-red {
-  animation: flashRed 0.6s;
-}
 
 @keyframes flashGreen {
-  0% { background-color: #d4edda; }
-  50% { background-color: #28a745; }
-  100% { background-color: transparent; }
+  0% {
+    background-color: #d4edda;
+  }
+
+  50% {
+    background-color: #28a745;
+  }
+
+  100% {
+    background-color: transparent;
+  }
 }
 
 @keyframes flashRed {
-  0% { background-color: #f8d7da; }
-  50% { background-color: #dc3545; }
-  100% { background-color: transparent; }
+  0% {
+    background-color: #f8d7da;
+  }
+
+  50% {
+    background-color: #dc3545;
+  }
+
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* 🩶 Greyed out card */
+.card.ended {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+/* Disable interactions */
+.card.ended button {
+  cursor: not-allowed;
+}
+
+/* Auction closed label */
+.auction-ended-label {
+  margin-top: 8px;
+  padding: 6px;
+  text-align: center;
+  font-weight: bold;
+  color: #b00020;
+  background: #ffe5e5;
+  border-radius: 6px;
+}
+
+/* Flash effects (already using) */
+.flash-green {
+  animation: flashGreen 0.6s;
+}
+
+.flash-red {
+  animation: flashRed 0.6s;
 }

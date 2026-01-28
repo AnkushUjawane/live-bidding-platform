@@ -16,6 +16,7 @@ const io = new Server(server, {
 });
 
 setupSocket(io);
-server.listen(9000, "0.0.0.0" ,() => {
-  console.log("Backend running on http://localhost:9000");
+const PORT = process.env.PORT || 9000;
+server.listen(PORT, () => {
+  console.log(`Backend running on http://localhost:${PORT}`);
 });

@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h1>Live Auction</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "'Rajdhani', sans-serif", marginBottom: 50 }}>Live Auction</h1>
 
       <div
         style={{

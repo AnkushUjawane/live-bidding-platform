@@ -6,6 +6,10 @@ services:
     ports:
       - "9000:9000"
     restart: always
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
 
   frontend:
     build: ./frontend
@@ -13,3 +17,7 @@ services:
       - "5173:5173"
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
