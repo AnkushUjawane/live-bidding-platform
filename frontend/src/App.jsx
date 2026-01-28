@@ -4,28 +4,38 @@ import ItemCard from "./components/ItemCard";
 
 function App() {
   const [items, setItems] = useState([]);
-  const [serverTimeOffset, setServerTimeOffset] = useState(0);
-  const userId = crypto.randomUUID();
+  const [serverOffset, setServerOffset] = useState(null);
 
   useEffect(() => {
     axios.get("http://localhost:9000/items")
       .then(res => {
-        const { serverTime, items } = res.data;
-        setServerTimeOffset(serverTime - Date.now());
-        setItems(items);
-      });
+        const serverTime = Number(res.data.serverTime);
+        setServerOffset(serverTime - Date.now());
+        setItems(res.data.items);
+      })
+      .catch(console.error);
   }, []);
+
+  if (serverOffset === null) {
+    return <h2>Loading auction...</h2>;
+  }
 
   return (
     <div style={{ padding: 20 }}>
       <h1>Live Auction</h1>
-      <div style={{ display: "grid", gap: 20 }}>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: 20
+        }}
+      >
         {items.map(item => (
           <ItemCard
             key={item.id}
             item={item}
-            userId={userId}
-            serverOffset={serverTimeOffset}
+            serverOffset={serverOffset}
           />
         ))}
       </div>

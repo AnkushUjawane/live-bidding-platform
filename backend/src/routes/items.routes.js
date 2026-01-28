@@ -5,7 +5,12 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.json({
     serverTime: Date.now(),
-    items
+    items: items.map(item => ({
+        id: item.id,
+        title: item.title, 
+        currentBid: item.currentBid,
+        endTime: item.endTime
+    }))
   });
 });
 

@@ -21,7 +21,11 @@ module.exports = (io) => {
         }
         item.currentBid = bidAmount;
         item.highestBidder = userId;
-        io.emit("UPDATE_BID", item);
+        io.emit("UPDATE_BID", {
+          id: item.id,
+          currentBid: item.currentBid,
+          highestBid: item.highestBidder
+        });
       });
     });
   });

@@ -1,14 +1,32 @@
 .card {
   padding: 16px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #ddd;
-  transition: background 0.3s;
+  transition: background-color 0.4s ease, transform 0.2s ease;
 }
 
-.card.winning {
-  background: #d4f8d4;
+.card.flash-green {
+  background-color: #d4f8d4;
 }
 
-.card.outbid {
-  background: #f8d4d4;
+.card.flash-red {
+  background-color: #f8d4d4;
+}
+
+.badge {
+  margin-top: 8px;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.badge.win {
+  background: #2e7d32;
+  color: white;
+}
+
+.badge.outbid {
+  background: #c62828;
+  color: white;
 }
