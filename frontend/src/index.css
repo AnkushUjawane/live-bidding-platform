@@ -5,14 +5,6 @@
   transition: background-color 0.4s ease, transform 0.2s ease;
 }
 
-.card.flash-green {
-  background-color: #d4f8d4;
-}
-
-.card.flash-red {
-  background-color: #f8d4d4;
-}
-
 .badge {
   margin-top: 8px;
   display: inline-block;
@@ -29,4 +21,22 @@
 .badge.outbid {
   background: #c62828;
   color: white;
+}
+.flash-green {
+  animation: flashGreen 0.6s;
+}
+.flash-red {
+  animation: flashRed 0.6s;
+}
+
+@keyframes flashGreen {
+  0% { background-color: #d4edda; }
+  50% { background-color: #28a745; }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashRed {
+  0% { background-color: #f8d7da; }
+  50% { background-color: #dc3545; }
+  100% { background-color: transparent; }
 }
