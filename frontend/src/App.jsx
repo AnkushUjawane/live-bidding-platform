@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ItemCard from "./components/ItemCard";
 
+const API_URl = import.meta.env.VITE_API_URL;
+
 function App() {
   const [items, setItems] = useState([]);
   const [serverOffset, setServerOffset] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:9000/items")
+    axios.get(`${API_URl}/items`)
       .then(res => {
         const serverTime = Number(res.data.serverTime);
         setServerOffset(serverTime - Date.now());

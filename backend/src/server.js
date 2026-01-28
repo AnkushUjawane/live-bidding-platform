@@ -16,6 +16,6 @@ const io = new Server(server, {
 });
 
 setupSocket(io);
-server.listen(9000, () => {
+server.listen(9000, "0.0.0.0" ,() => {
   console.log("Backend running on http://localhost:9000");
 });
