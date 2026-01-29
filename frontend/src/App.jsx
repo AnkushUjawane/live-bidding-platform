@@ -40,6 +40,7 @@ function App() {
             serverOffset={serverOffset}
           />
         ))}
+        console.log("BACKEND:", import.meta.env.VITE_BACKEND_URL);
       </div>
     </div>
   );
