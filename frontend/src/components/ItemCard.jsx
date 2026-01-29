@@ -4,10 +4,12 @@ import CountdownTimer from "./CountdownTimer";
 
 export default function ItemCard({ item, userId, serverOffset }) {
     const [price, setPrice] = useState(item.currentBid);
-    const [status, setStatus] = useState("idle");
-    const [auctionEnded, setAuctionEnded] = useState(false);
+    const [status, setStatus] = useState("");
     const [flash, setFlash] = useState(null);
     const auctionEndedRef = useRef(false);
+
+    const auctionEnded = item.status === "ENDED";
+    const isLive = item.status === "LIVE";
 
     useEffect(() => {
         socket.on("UPDATE_BID", updated => {
@@ -34,6 +36,7 @@ export default function ItemCard({ item, userId, serverOffset }) {
             if (itemId !== item.id) return;
             setStatus("outbid");
             setFlash("red");
+
             setTimeout(() => {
                 setFlash(null);
                 setStatus("");
@@ -43,7 +46,6 @@ export default function ItemCard({ item, userId, serverOffset }) {
         socket.on("AUCTION_ENDED", ({ itemId }) => {
             if (itemId !== item.id) return;
             auctionEndedRef.current = true;
-            setAuctionEnded(true);
         });
 
         return () => {
@@ -54,14 +56,18 @@ export default function ItemCard({ item, userId, serverOffset }) {
     }, [item.id, userId]);
 
     const bid = () => {
-        if (auctionEnded) return;
+        if (!isLive) return;
+
         const newBid = price + 10;
+
         setStatus("winning");
         setFlash("green");
+
         setTimeout(() => {
             setFlash(null);
             setStatus("");
         }, 600);
+
         socket.emit("BID_PLACED", {
             itemId: item.id,
             bidAmount: newBid,
@@ -71,35 +77,33 @@ export default function ItemCard({ item, userId, serverOffset }) {
 
     return (
         <div className={`card ${auctionEnded ? "ended" : ""}`}>
-
-            {/* Header */}
             <div className="card-header">
                 <h3 className="item-title">{item.title}</h3>
+
                 <CountdownTimer
-                    endTime={Number(item.endTime)}
+                    status={item.status}
+                    startTime={item.startTime}
+                    endTime={item.endTime}
                     serverOffset={serverOffset}
                 />
             </div>
 
-            {/* Price */}
-            <div
-                className={`price ${flash === "green" ? "flash-green" : ""} ${flash === "red" ? "flash-red" : ""
-                    }`}
-            >
+            <div className={`price ${flash === "green" ? "flash-green" : ""} ${flash === "red" ? "flash-red" : ""}`}>
                 ${price}
             </div>
 
-            {/* CTA */}
-            <button className="bid-btn" onClick={bid} disabled={auctionEnded}>
-                {auctionEnded ? "Auction Ended" : "Place Bid  +$10"}
+            <button className="bid-btn" onClick={bid} disabled={!isLive}>
+                {auctionEnded
+                    ? "Auction Ended"
+                    : item.status === "UPCOMING"
+                        ? "Auction Not Started"
+                        : "Place Bid +$10"}
             </button>
 
-            {/* Status */}
             <div className="status">
                 {status === "winning" && <span className="win">🏆 Winning</span>}
                 {status === "outbid" && <span className="lose">❌ Outbid</span>}
             </div>
-
         </div>
     );
 }
