@@ -10,10 +10,7 @@ A **real-time auction platform** where users compete to buy items in the final s
 ---
 
 ## 🌐 Demo
-[Live Demo](https://your-deployed-link.com)  
-
-![Demo GIF](https://media.giphy.com/media/your-demo.gif)  
-*Example of live bidding in action*
+[Live Demo](https://live-bidding-platform-alpha.vercel.app/)  
 
 ---
 
