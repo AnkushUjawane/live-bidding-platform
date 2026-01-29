@@ -5,28 +5,16 @@ const router = express.Router();
 router.get("/", (req, res) => {
   const now = Date.now();
 
-  const processedItems = items.map(item => {
+  const enrichedItems = items.map(item => {
     const startTime = item.createdAt + item.startAfter;
-    const endTime = startTime + item.duration;
+    const endTime = startTime + item.activeDuration;
 
     let status = "UPCOMING";
-
-    if (now >= startTime && now < endTime) {
-      status = "LIVE";
-    }
-
-    if (now >= endTime) {
-      status = "ENDED";
-      item.ended = true;
-    }
+    if (now >= startTime && now < endTime) status = "LIVE";
+    if (now >= endTime) status = "ENDED";
 
     return {
-      id: item.id,
-      title: item.title,
-      startingPrice: item.startingPrice,
-      currentBid: item.currentBid,
-      highestBidder: item.highestBidder,
-
+      ...item,
       startTime,
       endTime,
       status
@@ -35,7 +23,7 @@ router.get("/", (req, res) => {
 
   res.json({
     serverTime: now,
-    items: processedItems
+    items: enrichedItems
   });
 });
 

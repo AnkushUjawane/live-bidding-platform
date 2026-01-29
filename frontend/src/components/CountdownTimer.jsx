@@ -1,31 +1,36 @@
-import { useEffect, useState } from "react";
+function formatTime(ms) {
+  if (ms <= 0) return "0s";
 
-export default function CountdownTimer({ endTime, serverOffset }) {
-  const getTimeLeft = () => {
-    const now = Date.now() + serverOffset;
-    return Math.max(0, endTime - now);
-  };
+  const totalSeconds = Math.floor(ms / 1000);
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
 
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+  return h > 0 ? `${h}h ${m}m ${s}s` : `${m}m ${s}s`;
+}
+
+export default function CountdownTimer({
+  status,
+  startTime,
+  endTime,
+  serverOffset
+}) {
+  const [, forceUpdate] = useState(0);
 
   useEffect(() => {
-    const i = setInterval(() => {
-      setTimeLeft(getTimeLeft());
-    }, 1000);
-    return () => clearInterval(i);
-  }, [endTime, serverOffset]);
+    const t = setInterval(() => forceUpdate(v => v + 1), 1000);
+    return () => clearInterval(t);
+  }, []);
 
-  if (timeLeft <= 0) {
-    return <strong>Auction Ended</strong>;
+  const now = Date.now() + serverOffset;
+
+  if (status === "UPCOMING") {
+    return <span>⏳ {formatTime(startTime - now)}</span>;
   }
 
-  const totalSeconds = Math.floor(timeLeft / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
+  if (status === "LIVE") {
+    return <span>🔥 {formatTime(endTime - now)}</span>;
+  }
 
-  return (
-    <span>
-      ⏳ {minutes}:{String(seconds).padStart(2, "0")}
-    </span>
-  );
+  return <span>❌ Ended</span>;
 }
