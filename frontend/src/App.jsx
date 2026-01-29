@@ -22,10 +22,6 @@ function App() {
     return <h2>Loading auction...</h2>;
   }
 
-  useEffect(() => {
-    console.log("BACKEND:", import.meta.env.VITE_BACKEND_URL);
-  }, []);
-
   return (
     <div style={{ padding: 20 }}>
       <h1 style={{ textAlign: "center", fontFamily: "'Rajdhani', sans-serif", marginBottom: 50 }}>Live Auction</h1>
