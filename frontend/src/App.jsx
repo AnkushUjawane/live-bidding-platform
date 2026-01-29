@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ItemCard from "./components/ItemCard";
 
-const API_URl = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const [items, setItems] = useState([]);
   const [serverOffset, setServerOffset] = useState(null);
 
   useEffect(() => {
-    axios.get(`${API_URl}/items`)
+    axios.get(`${API_URL}/items`)
       .then(res => {
         const serverTime = Number(res.data.serverTime);
         setServerOffset(serverTime - Date.now());
@@ -23,7 +23,7 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("BACKEND:", import.meta.env.VITE_API_URL);
+    console.log("BACKEND:", import.meta.env.VITE_BACKEND_URL);
   }, []);
 
   return (
