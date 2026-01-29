@@ -7,8 +7,8 @@ module.exports = [
     highestBidder: null,
 
     createdAt: Date.now(),
-    startAfter: 0,              // starts immediately
-    activeDuration: 12 * 60 * 60 * 1000 // 12 hours
+    startAfter: 0,              
+    activeDuration: 12 * 60 * 60 * 1000 
   },
 
   {
@@ -19,7 +19,7 @@ module.exports = [
     highestBidder: null,
 
     createdAt: Date.now(),
-    startAfter: 1 * 60 * 60 * 1000, // starts after 1 hour
+    startAfter: 1 * 60 * 60 * 1000, 
     activeDuration: 12 * 60 * 60 * 1000
   },
 
@@ -31,7 +31,7 @@ module.exports = [
     highestBidder: null,
 
     createdAt: Date.now(),
-    startAfter: 2 * 60 * 60 * 1000, // starts after 2 hours
+    startAfter: 2 * 60 * 60 * 1000, 
     activeDuration: 12 * 60 * 60 * 1000
   }
 ];

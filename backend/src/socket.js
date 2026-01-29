@@ -10,6 +10,7 @@ module.exports = (io) => {
         io.emit("AUCTION_ENDED", { itemId: item.id });
       }, timeLeft);
     } else {
+      item.status = "ENDED";
       item.ended = true;
       io.emit("AUCTION_ENDED", { itemId: item.id });
     }

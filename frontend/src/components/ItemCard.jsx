@@ -59,7 +59,7 @@ export default function ItemCard({ item, userId, serverOffset }) {
         if (!isLive) return;
 
         const newBid = price + 10;
-
+        setPrice(newBid);
         setStatus("winning");
         setFlash("green");
 
