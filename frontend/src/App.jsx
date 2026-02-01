@@ -14,6 +14,7 @@ function App() {
       .then(res => {
         const serverTime = Number(res.data.serverTime);
         setServerOffset(serverTime - Date.now());
+        setItems(res.data.items); 
       })
       .catch(console.error);
   }, []);
@@ -61,6 +62,9 @@ function App() {
       socket.off("AUCTION_ENDED");
     };
   }, []);
+  if (!items.length) {
+    return <h2 style={{ textAlign: "center" }}>No auctions available</h2>;
+  }
 
   if (serverOffset === null) {
     return <h2>Loading auction...</h2>;
