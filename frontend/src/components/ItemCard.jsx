@@ -82,17 +82,18 @@ export default function ItemCard({ item, userId, serverOffset }) {
         <div className={`card ${auctionEnded ? "ended" : ""}`}>
             <div className="card-header">
                 <h3 className="item-title">{item.title}</h3>
-
-                <CountdownTimer
-                    status={item.status}
-                    startTime={item.startTime}
-                    endTime={item.endTime}
-                    serverOffset={serverOffset}
-                />
+                <div className="countdown">
+                    <CountdownTimer
+                        status={item.status}
+                        startTime={item.startTime}
+                        endTime={item.endTime}
+                        serverOffset={serverOffset}
+                    />
+                </div>
             </div>
 
             <div className={`price ${flash === "green" ? "flash-green" : ""} ${flash === "red" ? "flash-red" : ""}`}>
-                ${price}
+                ${price.toLocaleString()}
             </div>
 
             <button
@@ -110,7 +111,7 @@ export default function ItemCard({ item, userId, serverOffset }) {
                         ? "Auction Not Started"
                         : item.highestBidder === userId
                             ? "You are Highest Bidder"
-                            : "Place Bid +$10"}
+                            : "Bid +$10"}
             </button>
 
             <div className="status">

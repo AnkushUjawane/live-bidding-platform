@@ -1,140 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: #333;
+}
+
 .card {
-  padding: 18px;
-  border-radius: 18px;
-  background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.35),
-      rgba(255, 255, 255, 0.15));
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.08),
-    inset 0 0 12px rgba(255, 255, 255, 0.3);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  padding: 24px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 .item-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 4px;
 }
+
+.countdown {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(79, 172, 254, 0.1);
+  color: #4facfe;
+  border: 1px solid rgba(79, 172, 254, 0.2);
+}
+
 .price {
   text-align: center;
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin: 20px 0;
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 24px 0;
+  color: #2d3748;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .bid-btn {
   width: 100%;
-  padding: 14px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 14px;
+  padding: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-radius: 16px;
   border: none;
   cursor: pointer;
-
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   color: white;
-
-  box-shadow: 0 8px 20px rgba(0, 180, 255, 0.35);
-  transition: all 0.25s ease;
+  box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .bid-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(0, 180, 255, 0.45);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(79, 172, 254, 0.6);
 }
 
 .bid-btn:disabled {
-  background: #ccc;
+  background: linear-gradient(135deg, #a0aec0, #718096);
   cursor: not-allowed;
   box-shadow: none;
+  transform: none;
 }
 
-.badge {
-  margin-top: 8px;
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 12px;
+.status {
+  margin-top: 16px;
+  text-align: center;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.badge.win {
-  background: #2e7d32;
+.win {
+  background: linear-gradient(135deg, #48bb78, #38a169);
   color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
 }
 
-.badge.outbid {
-  background: #c62828;
+.lose {
+  background: linear-gradient(135deg, #f56565, #e53e3e);
   color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
 }
 
 @keyframes flashGreen {
-  0% {
-    background-color: #d4edda;
-  }
-
-  50% {
-    background-color: #28a745;
-  }
-
-  100% {
-    background-color: transparent;
-  }
+  0% { background-color: rgba(72, 187, 120, 0.1); }
+  50% { background-color: rgba(72, 187, 120, 0.3); }
+  100% { background-color: transparent; }
 }
 
 @keyframes flashRed {
-  0% {
-    background-color: #f8d7da;
-  }
-
-  50% {
-    background-color: #dc3545;
-  }
-
-  100% {
-    background-color: transparent;
-  }
+  0% { background-color: rgba(245, 101, 101, 0.1); }
+  50% { background-color: rgba(245, 101, 101, 0.3); }
+  100% { background-color: transparent; }
 }
 
-/* 🩶 Greyed out card */
-.card.ended {
-  opacity: 0.5;
-  filter: grayscale(100%);
-}
-
-/* Disable interactions */
-.card.ended button {
-  cursor: not-allowed;
-}
-
-/* Auction closed label */
-.auction-ended-label {
-  margin-top: 8px;
-  padding: 6px;
-  text-align: center;
-  font-weight: bold;
-  color: #b00020;
-  background: #ffe5e5;
-  border-radius: 6px;
-}
-
-/* Flash effects (already using) */
 .flash-green {
-  animation: flashGreen 0.6s;
+  animation: flashGreen 0.6s ease;
 }
 
 .flash-red {
-  animation: flashRed 0.6s;
+  animation: flashRed 0.6s ease;
+}
+
+.card.ended {
+  opacity: 0.6;
+  filter: grayscale(50%);
+}
+
+.card.ended::before {
+  background: #a0aec0;
+}
+
+.auction-ended-label {
+  margin-top: 12px;
+  padding: 8px 16px;
+  text-align: center;
+  font-weight: 700;
+  color: #e53e3e;
+  background: rgba(245, 101, 101, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(245, 101, 101, 0.2);
 }

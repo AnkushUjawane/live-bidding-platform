@@ -65,34 +65,75 @@ function App() {
   }, []);
 
   if (!items.length) {
-    return <h2 style={{ textAlign: "center" }}>No auctions available</h2>;
+    return (
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        minHeight: "100vh",
+        color: "white",
+        fontSize: "1.5rem",
+        fontWeight: "600"
+      }}>
+        No auctions available
+      </div>
+    );
   }
 
   if (serverOffset === null) {
-    return <h2>Loading auction...</h2>;
+    return (
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center", 
+        minHeight: "100vh",
+        color: "white",
+        fontSize: "1.5rem",
+        fontWeight: "600"
+      }}>
+        Loading auction...
+      </div>
+    );
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1 style={{ textAlign: "center", marginBottom: 40 }}>
-        Live Auction - User: {userId}
-      </h1>
+    <div style={{ padding: "40px 20px", minHeight: "100vh" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div style={{ textAlign: "center", marginBottom: "60px" }}>
+          <h1 style={{ 
+            fontSize: "3rem", 
+            fontWeight: "800", 
+            color: "white", 
+            textShadow: "0 4px 8px rgba(0,0,0,0.3)",
+            marginBottom: "10px"
+          }}>
+            🔥 Live Auction Platform
+          </h1>
+          <p style={{ 
+            color: "rgba(255,255,255,0.9)", 
+            fontSize: "1.2rem",
+            fontWeight: "500"
+          }}>
+            User: {userId}
+          </p>
+        </div>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          gap: 20
-        }}
-      >
-        {items.map(item => (
-          <ItemCard
-            key={item.id}
-            item={item}
-            userId={userId}
-            serverOffset={serverOffset}
-          />
-        ))}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "30px"
+          }}
+        >
+          {items.map(item => (
+            <ItemCard
+              key={item.id}
+              item={item}
+              userId={userId}
+              serverOffset={serverOffset}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

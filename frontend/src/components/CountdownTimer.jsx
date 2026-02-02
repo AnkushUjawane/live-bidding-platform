@@ -31,11 +31,11 @@ export default function CountdownTimer({
   }, [status, startTime, endTime, serverOffset]);
 
   if (status === "ENDED") {
-    return <strong>❌ Auction Ended</strong>;
+    return <strong style={{ color: "#e53e3e" }}>❌ Auction Ended</strong>;
   }
 
   if (timeLeft <= 0 && status === "UPCOMING") {
-    return <strong>Starting...</strong>;
+    return <strong style={{ color: "#4facfe" }}>Starting...</strong>;
   }
 
   const totalSeconds = Math.floor(timeLeft / 1000);
@@ -44,7 +44,11 @@ export default function CountdownTimer({
   const seconds = totalSeconds % 60;
 
   return (
-    <span>
+    <span style={{
+      fontSize: "0.85rem",
+      fontWeight: "600",
+      color: status === "LIVE" ? "#e53e3e" : status === "UPCOMING" ? "#4facfe" : "#718096"
+    }}>
       {status === "UPCOMING" && "⏳ Starts in "}
       {status === "LIVE" && "🔥 Ends in "}
       {hours > 0 && `${hours}h `}
