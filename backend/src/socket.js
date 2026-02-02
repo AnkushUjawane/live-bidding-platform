@@ -18,6 +18,7 @@ module.exports = (io) => {
     } else {
       item.status = "ENDED";
       item.ended = true;
+      io.emit("AUCTION_ENDED", { itemId: item.id });
     }
   });
 

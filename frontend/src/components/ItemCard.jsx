@@ -32,15 +32,18 @@ export default function ItemCard({ item, userId, serverOffset }) {
             }, 600);
         });
 
-        socket.on("BID_ERROR", ({ itemId }) => {
+        socket.on("BID_ERROR", ({ itemId, reason }) => {
             if (itemId !== item.id) return;
-            setStatus("outbid");
-            setFlash("red");
-
-            setTimeout(() => {
-                setFlash(null);
-                setStatus("");
-            }, 600);
+            if (reason === "CONSECUTIVE_BID") {
+                setStatus("outbid");
+                alert("You cannot place two consecutive bids. Wait for another bidder.");
+            }
+            if (reason === "BID_COOLDOWN") {
+                alert("Please wait before placing another bid.");
+            }
+            if (reason === "AUCTION_ENDED") {
+                alert("Auction has ended.");
+            }
         });
 
         socket.on("AUCTION_ENDED", ({ itemId }) => {
@@ -92,12 +95,22 @@ export default function ItemCard({ item, userId, serverOffset }) {
                 ${price}
             </div>
 
-            <button className="bid-btn" onClick={bid} disabled={!isLive}>
+            <button
+                className="bid-btn"
+                onClick={bid}
+                disabled={
+                    auctionEnded ||
+                    !isLive ||
+                    item.highestBidder === userId
+                }
+            >
                 {auctionEnded
                     ? "Auction Ended"
                     : item.status === "UPCOMING"
                         ? "Auction Not Started"
-                        : "Place Bid +$10"}
+                        : item.highestBidder === userId
+                            ? "You are Highest Bidder"
+                            : "Place Bid +$10"}
             </button>
 
             <div className="status">
