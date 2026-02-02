@@ -3,11 +3,12 @@ import axios from "axios";
 import { socket } from "./hooks/useSocket";
 import ItemCard from "./components/ItemCard";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:9000";
 
 function App() {
   const [items, setItems] = useState([]);
   const [serverOffset, setServerOffset] = useState(null);
+  const [userId] = useState(() => `user_${Math.random().toString(36).substr(2, 9)}`);
 
   useEffect(() => {
     axios.get(`${API_URL}/items`)
@@ -62,6 +63,7 @@ function App() {
       socket.off("AUCTION_ENDED");
     };
   }, []);
+
   if (!items.length) {
     return <h2 style={{ textAlign: "center" }}>No auctions available</h2>;
   }
@@ -73,7 +75,7 @@ function App() {
   return (
     <div style={{ padding: 20 }}>
       <h1 style={{ textAlign: "center", marginBottom: 40 }}>
-        Live Auction
+        Live Auction - User: {userId}
       </h1>
 
       <div
@@ -87,6 +89,7 @@ function App() {
           <ItemCard
             key={item.id}
             item={item}
+            userId={userId}
             serverOffset={serverOffset}
           />
         ))}

@@ -6,17 +6,12 @@ router.get("/", (req, res) => {
   const now = Date.now();
 
   const enrichedItems = items.map(item => {
-    const startTime = item.createdAt + item.startAfter;
-    const endTime = startTime + item.activeDuration;
-
     let status = "UPCOMING";
-    if (now >= startTime && now < endTime) status = "LIVE";
-    if (now >= endTime) status = "ENDED";
+    if (now >= item.startTime && now < item.endTime) status = "LIVE";
+    if (now >= item.endTime) status = "ENDED";
 
     return {
       ...item,
-      startTime,
-      endTime,
       status
     };
   });
