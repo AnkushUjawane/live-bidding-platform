@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { socket } from "../hooks/useSocket";
 import CountdownTimer from "./CountdownTimer";
+import "./ItemCard.css";
 
 export default function ItemCard({ item, userId, serverOffset }) {
     const [price, setPrice] = useState(item.currentBid);
@@ -80,8 +81,8 @@ export default function ItemCard({ item, userId, serverOffset }) {
 
     return (
         <div className={`card ${auctionEnded ? "ended" : ""}`}>
-            <div className="card-header">
-                <h3 className="item-title">{item.title}</h3>
+            <div className="cardHeader">
+                <h3 className="itemTitle">{item.title}</h3>
                 <div className="countdown">
                     <CountdownTimer
                         status={item.status}
@@ -92,12 +93,12 @@ export default function ItemCard({ item, userId, serverOffset }) {
                 </div>
             </div>
 
-            <div className={`price ${flash === "green" ? "flash-green" : ""} ${flash === "red" ? "flash-red" : ""}`}>
+            <div className={`price ${flash === "green" ? "flashGreen" : ""} ${flash === "red" ? "flashRed" : ""}`}>
                 ${price.toLocaleString()}
             </div>
 
             <button
-                className="bid-btn"
+                className="bidBtn"
                 onClick={bid}
                 disabled={
                     auctionEnded ||

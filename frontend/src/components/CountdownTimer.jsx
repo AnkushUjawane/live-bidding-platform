@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./CountdownTimer.css";
 
 export default function CountdownTimer({
   status,
@@ -31,11 +32,11 @@ export default function CountdownTimer({
   }, [status, startTime, endTime, serverOffset]);
 
   if (status === "ENDED") {
-    return <strong style={{ color: "#e53e3e" }}>❌ Auction Ended</strong>;
+    return <strong className="ended">❌ Auction Ended</strong>;
   }
 
   if (timeLeft <= 0 && status === "UPCOMING") {
-    return <strong style={{ color: "#4facfe" }}>Starting...</strong>;
+    return <strong className="upcoming">Starting...</strong>;
   }
 
   const totalSeconds = Math.floor(timeLeft / 1000);
@@ -43,12 +44,10 @@ export default function CountdownTimer({
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
+  const timerClass = status === "LIVE" ? "live" : status === "UPCOMING" ? "upcoming" : "default";
+
   return (
-    <span style={{
-      fontSize: "0.85rem",
-      fontWeight: "600",
-      color: status === "LIVE" ? "#e53e3e" : status === "UPCOMING" ? "#4facfe" : "#718096"
-    }}>
+    <span className={`timer ${timerClass}`}>
       {status === "UPCOMING" && "⏳ Starts in "}
       {status === "LIVE" && "🔥 Ends in "}
       {hours > 0 && `${hours}h `}

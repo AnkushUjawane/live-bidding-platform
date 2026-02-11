@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { socket } from "./hooks/useSocket";
 import ItemCard from "./components/ItemCard";
+import "./App.css";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:9000";
 
@@ -65,66 +66,22 @@ function App() {
   }, []);
 
   if (!items.length) {
-    return (
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        alignItems: "center", 
-        minHeight: "100vh",
-        color: "white",
-        fontSize: "1.5rem",
-        fontWeight: "600"
-      }}>
-        No auctions available
-      </div>
-    );
+    return <div className="loading">No auctions available</div>;
   }
 
   if (serverOffset === null) {
-    return (
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        alignItems: "center", 
-        minHeight: "100vh",
-        color: "white",
-        fontSize: "1.5rem",
-        fontWeight: "600"
-      }}>
-        Loading auction...
-      </div>
-    );
+    return <div className="loading">Loading auction...</div>;
   }
 
   return (
-    <div style={{ padding: "40px 20px", minHeight: "100vh" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "60px" }}>
-          <h1 style={{ 
-            fontSize: "3rem", 
-            fontWeight: "800", 
-            color: "white", 
-            textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-            marginBottom: "10px"
-          }}>
-            🔥 Live Auction Platform
-          </h1>
-          <p style={{ 
-            color: "rgba(255,255,255,0.9)", 
-            fontSize: "1.2rem",
-            fontWeight: "500"
-          }}>
-            User: {userId}
-          </p>
+    <div className="container">
+      <div className="wrapper">
+        <div className="header">
+          <h1 className="title">🔥 Live Auction Platform</h1>
+          <p className="userId">User: {userId}</p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "30px"
-          }}
-        >
+        <div className="grid">
           {items.map(item => (
             <ItemCard
               key={item.id}
