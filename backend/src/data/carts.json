@@ -1,0 +1,20 @@
+[
+  {
+    "id": "17709756150850.6737923571280788",
+    "userId": "1770975263232",
+    "itemId": "1",
+    "title": "MacBook Pro",
+    "price": 510,
+    "purchased": true,
+    "addedAt": "2026-02-13T09:40:15.085Z"
+  },
+  {
+    "id": "17709785722560.7610557862269198",
+    "userId": "1770977615132",
+    "itemId": "1",
+    "title": "MacBook Pro",
+    "price": 600,
+    "purchased": true,
+    "addedAt": "2026-02-13T10:29:32.256Z"
+  }
+]

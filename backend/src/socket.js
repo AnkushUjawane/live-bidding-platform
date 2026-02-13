@@ -1,7 +1,14 @@
 const items = require("./data/items");
 const mutex = require("./utils/mutex");
+const fs = require("fs");
+const path = require("path");
+
+const cartsFile = path.join(__dirname, "data/carts.json");
+const getCarts = () => JSON.parse(fs.readFileSync(cartsFile, "utf8"));
+const saveCarts = (carts) => fs.writeFileSync(cartsFile, JSON.stringify(carts, null, 2));
 
 const userLastBidTime = {};
+const userItemBidTime = {};
 const BID_COOLDOWN_MS = 3000;
 const ANTI_SNIPING_THRESHOLD = 15000;
 const ANTI_SNIPING_EXTENSION = 30000;
@@ -36,7 +43,23 @@ module.exports = (io) => {
       setTimeout(() => {
         item.status = "ENDED";
         item.ended = true;
-        io.emit("AUCTION_ENDED", { itemId: item.id });
+        
+        // Add to winner's cart
+        if (item.highestBidder) {
+          const carts = getCarts();
+          carts.push({
+            id: Date.now().toString() + Math.random(),
+            userId: item.highestBidder,
+            itemId: item.id,
+            title: item.title,
+            price: item.currentBid,
+            purchased: false,
+            addedAt: new Date().toISOString()
+          });
+          saveCarts(carts);
+        }
+        
+        io.emit("AUCTION_ENDED", { itemId: item.id, winner: item.highestBidder });
       }, endDelay);
     }
   });
@@ -73,8 +96,8 @@ module.exports = (io) => {
         }
         
         if (
-          userLastBidTime[userId] &&
-          now - userLastBidTime[userId] < BID_COOLDOWN_MS
+          userItemBidTime[`${userId}_${itemId}`] &&
+          now - userItemBidTime[`${userId}_${itemId}`] < BID_COOLDOWN_MS
         ) {
           socket.emit("BID_ERROR", { itemId, reason: "BID_COOLDOWN" });
           return;
@@ -93,6 +116,7 @@ module.exports = (io) => {
         item.currentBid = bidAmount;
         item.highestBidder = userId;
         userLastBidTime[userId] = now;
+        userItemBidTime[`${userId}_${itemId}`] = now;
         
         // Broadcast update to all clients
         io.emit("UPDATE_BID", {

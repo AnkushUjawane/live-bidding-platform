@@ -5,6 +5,7 @@ import "./ItemCard.css";
 
 export default function ItemCard({ item, userId, serverOffset }) {
     const [price, setPrice] = useState(item.currentBid);
+    const [highestBidder, setHighestBidder] = useState(item.highestBidder);
     const [status, setStatus] = useState("");
     const [flash, setFlash] = useState(null);
     const auctionEndedRef = useRef(false);
@@ -13,11 +14,17 @@ export default function ItemCard({ item, userId, serverOffset }) {
     const isLive = item.status === "LIVE";
 
     useEffect(() => {
+        setPrice(item.currentBid);
+        setHighestBidder(item.highestBidder);
+    }, [item.currentBid, item.highestBidder]);
+
+    useEffect(() => {
         socket.on("UPDATE_BID", updated => {
             if (updated.id !== item.id) return;
             if (auctionEndedRef.current) return;
 
             setPrice(updated.currentBid);
+            setHighestBidder(updated.highestBidder);
 
             if (updated.highestBidder === userId) {
                 setStatus("winning");
@@ -103,14 +110,14 @@ export default function ItemCard({ item, userId, serverOffset }) {
                 disabled={
                     auctionEnded ||
                     !isLive ||
-                    item.highestBidder === userId
+                    highestBidder === userId
                 }
             >
                 {auctionEnded
                     ? "Auction Ended"
                     : item.status === "UPCOMING"
                         ? "Auction Not Started"
-                        : item.highestBidder === userId
+                        : highestBidder === userId
                             ? "You are Highest Bidder"
                             : "Bid +$10"}
             </button>

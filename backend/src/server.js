@@ -2,6 +2,8 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const itemsRoute = require("./routes/items.routes");
+const authRoute = require("./routes/auth.routes");
+const cartRoute = require("./routes/cart.routes");
 const setupSocket = require("./socket");
 const cors = require("cors");
 
@@ -9,6 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/items", itemsRoute);
+app.use("/auth", authRoute);
+app.use("/cart", cartRoute);
 
 const server = http.createServer(app);
 const io = new Server(server, {

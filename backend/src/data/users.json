@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1770975263232",
+    "username": "admin",
+    "password": "$2b$10$GN7FPZVr/Co7N.XrImOesODKQWT2K9CLuV1EvqsIJhjmE/BNYk/jS",
+    "email": "ankushujawane18@gmail.com",
+    "balance": 4490
+  },
+  {
+    "id": "1770977615132",
+    "username": "ankush",
+    "password": "$2b$10$U9nhRz3zE554Mil.ZFtCZOjQRgolJzOQ2vV0JTvGrx7h7hS3QXhhe",
+    "email": "2022bcs042@sggs.ac.in",
+    "balance": 4400
+  }
+]

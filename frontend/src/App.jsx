@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { socket } from "./hooks/useSocket";
 import ItemCard from "./components/ItemCard";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Cart from "./components/Cart";
+import { AuthContext } from "./context/AuthContext";
 import "./App.css";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:9000";
@@ -9,7 +13,9 @@ const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:9000";
 function App() {
   const [items, setItems] = useState([]);
   const [serverOffset, setServerOffset] = useState(null);
-  const [userId] = useState(() => `user_${Math.random().toString(36).substr(2, 9)}`);
+  const [showLogin, setShowLogin] = useState(true);
+  const [showCart, setShowCart] = useState(false);
+  const { user, logout } = useContext(AuthContext);
 
   useEffect(() => {
     axios.get(`${API_URL}/items`)
@@ -65,6 +71,12 @@ function App() {
     };
   }, []);
 
+  if (!user) {
+    return showLogin ? 
+      <Login onSwitch={() => setShowLogin(false)} /> : 
+      <Register onSwitch={() => setShowLogin(true)} />;
+  }
+
   if (!items.length) {
     return <div className="loading">No auctions available</div>;
   }
@@ -78,7 +90,12 @@ function App() {
       <div className="wrapper">
         <div className="header">
           <h1 className="title">🔥 Live Auction Platform</h1>
-          <p className="userId">User: {userId}</p>
+          <div className="user-info">
+            <span className="username">{user.username}</span>
+            <span className="balance">${user.balance?.toFixed(2)}</span>
+            <button className="cart-btn" onClick={() => setShowCart(true)}>🛒 Cart</button>
+            <button className="logout-btn" onClick={logout}>Logout</button>
+          </div>
         </div>
 
         <div className="grid">
@@ -86,12 +103,14 @@ function App() {
             <ItemCard
               key={item.id}
               item={item}
-              userId={userId}
+              userId={user.id}
               serverOffset={serverOffset}
             />
           ))}
         </div>
       </div>
+      
+      {showCart && <Cart onClose={() => setShowCart(false)} />}
     </div>
   );
 }
